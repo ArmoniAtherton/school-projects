@@ -1,5 +1,4 @@
 # school-projects
-Projects for TCSS classes.
 
 ### TCSS 143 - Fundementals of Object Oriented Programming.
 * Implement a low-complexity program (3 or more interacting classes) which includes the use of interfaces and/or abstract classes, and polymorphism given some design guidance.
