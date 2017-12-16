@@ -1,0 +1,14 @@
+package tools;
+
+
+import java.awt.Shape;
+import java.awt.geom.Rectangle2D;
+
+public class RectangleTool extends AbstractDrawTool {
+    @Override
+    public Shape getShape() {
+        return new Rectangle2D.Double(getStartPoint().getX(), getStartPoint().getY(), 
+                                      getStartPoint().getX() - getEndPoint().getX(), 
+                                      getStartPoint().getY() - getEndPoint().getY());
+    }
+}

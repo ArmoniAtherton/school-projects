@@ -1,0 +1,35 @@
+package gui;
+
+import draw.DrawingPanel;
+import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
+import tools.DrawTool;
+
+public class ToolAction extends AbstractAction {
+    /**
+     *
+     */
+    private static final long serialVersionUID = 7329947802528016108L;
+    private DrawingPanel myDrawingPanel;
+    
+    private final DrawTool myCurrentTool;
+
+    ToolAction(final String theName, final Boolean theEnabled, 
+                       final Integer theMnemonic, final ImageIcon theImage, 
+                       final DrawTool theCurrentTool, final DrawingPanel theDrawingPanel) {
+        super(theName);
+        putValue(SELECTED_KEY, theEnabled);
+        putValue(LARGE_ICON_KEY, theImage);
+        putValue(MNEMONIC_KEY, theMnemonic);
+        myCurrentTool = theCurrentTool;
+        myDrawingPanel = theDrawingPanel;
+    }
+
+    @Override
+    public void actionPerformed(final ActionEvent theEvent) {
+        myDrawingPanel.setTool(myCurrentTool);
+            
+    }
+
+}

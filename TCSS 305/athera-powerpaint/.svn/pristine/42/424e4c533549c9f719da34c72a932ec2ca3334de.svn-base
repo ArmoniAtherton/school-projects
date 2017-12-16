@@ -1,0 +1,47 @@
+package gui;
+
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
+import javax.swing.Icon;
+import javax.swing.JMenuBar;
+
+public class CustomIcon implements Icon {
+    private Color myColor;
+    final private Integer myHeight;
+    final private Integer myWidth;
+        
+    public CustomIcon(final int theHeight, 
+                      final int theWidth, 
+                      final Color theColor) {
+        myColor = theColor;
+        myHeight = theHeight;
+        myWidth = theWidth;
+    }
+
+    @Override
+    public void paintIcon(final Component theComponet, final Graphics theGraphic,
+                          final int theX, final int theY) {
+            //theGraphic.drawRect(0, 0, myWidth, myWidth);
+        theGraphic.setColor(myColor);
+        theGraphic.fillRect(3, 3, 14, 14);
+        theGraphic.setColor(Color.BLACK);
+        theGraphic.drawRect(3, 3, 14, 14);
+            
+        }
+    @Override
+    public int getIconWidth() {
+        return myWidth;
+    }
+
+    @Override
+    public int getIconHeight() {
+        return myHeight;
+    }
+
+    public void changeColor(final Color theColor, final JMenuBar theMenuBar) {
+        myColor = theColor;
+        theMenuBar.repaint();
+            
+    }
+}

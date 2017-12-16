@@ -1,0 +1,71 @@
+/*
+ * ItemOrder.java
+ * 
+ * TCSS 305 - Fall 2017
+ * Instructor: Charles Bryan
+ * Assignment-2
+ */
+
+package model;
+
+import java.util.Objects;
+
+/**
+ * This program will create Item Order objects to 
+ * be instantiated by the driver class.
+ * 
+ * @author Armoni Atherton athera@uw.edu
+ * @version October 12, 2017 
+ */
+public final class ItemOrder {
+    /**
+     * This stores the Item object.
+     */
+    private final Item myItem;
+    /**
+     * This stores the Quantity of a Item.
+     */
+    private final int myQuantity;
+
+    /**
+     * This constructs a ItemOrder with a specified item and quantity.
+     * 
+     * @param theItem Stores the Item object.
+     * @param theQuantity Stores the quantity.
+     */
+    public ItemOrder(final Item theItem, final int theQuantity) {
+        myItem = Objects.requireNonNull(theItem);
+        myQuantity = theQuantity;
+    }
+
+    /**
+     * This will get the item so it is available outside this class.
+     * 
+     * @return The current Item.
+     */
+    public Item getItem() {
+        return myItem;
+    }
+    /**
+     * This will get the item so you can get the quantity.
+     * 
+     * @return The current quantity.
+     */
+    public int getQuantity() {
+        return myQuantity;
+    }
+
+    /**
+     * The String representation of this ItemOrder will be formatted in a 
+     * organized fashion.
+     */
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder(128);
+        builder.append("This is the item: ");
+        builder.append(myItem);
+        builder.append("This is the Quantity: ");
+        builder.append(myQuantity);
+        return builder.toString();
+    }
+}

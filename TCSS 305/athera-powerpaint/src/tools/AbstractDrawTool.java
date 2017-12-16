@@ -1,0 +1,82 @@
+/*
+ * AbstractDrawTool.java
+ * 
+ * TCSS 305 - Fall 2017
+ * Instructor: Charles Bryan
+ * Assignment-5
+ */
+
+package tools;
+
+import java.awt.Point;
+
+/**
+ * This is a abstract class that will hold all the 
+ * common information to make a shape. While also allowing
+ * to edit the shape to make changes.
+ * 
+ * @author Armoni Atherton athera@uw.edu
+ * @version November 5, 2017 
+ */
+public abstract class AbstractDrawTool implements DrawTool {
+    
+    /** A point outside the drawing area. */
+    public static final Point NO_POINT = new Point(-50, -50);
+
+    /**
+     * The initial anchor point for the shape drawn by this tool.
+     */
+    private Point myStartPoint;
+    
+    /**
+     * The end point for the shape drawn by this tool.
+     */
+    private Point myEndPoint;
+
+    /**
+     * Constructs a paint tool.
+     */
+    public AbstractDrawTool() {
+        myStartPoint = NO_POINT;
+        myEndPoint = NO_POINT;
+    }
+    
+    /**
+     * This will set the start point of the shape.
+     * 
+     * @param thePoint the incoming point.
+     */
+    @Override
+    public void setStartPoint(final Point thePoint) {      
+        myStartPoint = thePoint;
+        myEndPoint = thePoint;
+    }
+
+    /**
+     * Will get the start point of the shape.
+     * 
+     * @return the start point for this PaintTool.
+     */
+    protected Point getStartPoint() {
+        return myStartPoint;
+    }
+    
+    /**
+     * This will set the end point of the shape.
+     * 
+     * @param thePoint the incoming point.
+     */
+    @Override
+    public void setEndPoint(final Point thePoint) {      
+        myEndPoint = thePoint;
+    }
+
+    /**
+     * This will get the end point of the shape.
+     * 
+     * @return the end point for this PaintTool.
+     */
+    protected Point getEndPoint() {
+        return myEndPoint;
+    }
+}

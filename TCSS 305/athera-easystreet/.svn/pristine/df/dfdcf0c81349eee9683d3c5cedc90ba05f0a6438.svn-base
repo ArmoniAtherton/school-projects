@@ -1,0 +1,46 @@
+package model;
+
+import java.util.Map;
+
+public class Atv extends AbstractVehicle implements Vehicle {
+    
+    public static final int DEFAULT_ATV_DEATH_TIME = 20;
+    private Direction myLastDir;
+    
+    public Atv(int theX, int theY, Direction theDir) {
+        super(theX, theY, theDir, DEFAULT_ATV_DEATH_TIME);   
+        myLastDir = theDir;
+    }
+    @Override
+    public boolean canPass(final Terrain theTerrain, final Light theLight) {
+        //return (theTerrain != Terrain.WALL)
+        boolean result = false;
+        if (theTerrain != Terrain.WALL) {
+            result = true;
+        }
+        return result;  
+    }
+   
+    @Override
+    public Direction chooseDirection(final Map<Direction, Terrain> theNeighbors) {
+        boolean flag = true;
+        //Stores the direction to go.
+        Direction resultDirection = null;
+        //Will iterate until finding a valid direction.
+        while (flag) {
+            //Stores a random direction such as north, east, south, west.
+            final Direction randomDirection = Direction.random();
+            //Stores the terrain of a random direction and sees if valid.
+            final Terrain vaildDirection = theNeighbors.get(randomDirection);
+            if (myLastDir.reverse() != randomDirection && canPass(vaildDirection, null)) {
+                //If valid direction will set to a variable to be returned.
+                resultDirection = randomDirection;
+                myLastDir = randomDirection;
+                flag = false;
+            }
+        }
+        return resultDirection;  
+    }
+    
+
+}

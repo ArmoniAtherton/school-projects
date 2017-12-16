@@ -1,0 +1,13 @@
+package java.awt;
+
+
+public interface Shape {
+
+    public abstract class AbstractVehicle implements Shape {
+        
+        
+    }
+       
+       
+} // end of interface Shape
+

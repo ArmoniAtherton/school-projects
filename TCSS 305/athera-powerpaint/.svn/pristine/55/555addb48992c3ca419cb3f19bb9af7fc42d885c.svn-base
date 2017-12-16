@@ -1,0 +1,165 @@
+package draw;
+
+import gui.PowerPaintGUI;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JPanel;
+import javax.swing.event.MouseInputAdapter;
+import shape.ShapeInformation;
+import tools.DrawTool;
+import tools.EraserTool;
+import tools.LineTool;
+
+public class DrawingPanel extends JPanel { 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5980366470331898625L;
+    private static final Color HUSKY_PURPLE = new Color(51, 0, 111);
+    private static final Color HUSKY_GOLD = new Color(232, 211, 162);
+    private static final Dimension DEFAULT_FRAME_SIZE = new Dimension(500, 300);
+    private Color myPrimaryColor;
+    private Color mySecondaryColor;
+    private Color myCurrentColor;
+    private Integer myWidth;
+    private List<ShapeInformation> myShapes;
+    private ShapeInformation myDraggingShape;
+    private ShapeInformation myCurrentShape;
+    private DrawTool myCurrentTool;
+    private final PowerPaintGUI myPowerPaint;
+    
+    public DrawingPanel(final PowerPaintGUI myGUI) {
+        super();
+        setPreferredSize(DEFAULT_FRAME_SIZE);
+        setBackground(Color.WHITE);
+        setUpFields();
+        setUpMouseListners();
+        myPowerPaint = myGUI;
+    }
+    private void setUpFields() {
+        myPrimaryColor = HUSKY_PURPLE;
+        mySecondaryColor = HUSKY_GOLD;
+        myCurrentColor = HUSKY_PURPLE;
+        myShapes = new ArrayList<ShapeInformation>();
+        myDraggingShape = new ShapeInformation(null, null, null);
+        myCurrentTool = new LineTool();
+       
+    }
+    
+    @Override
+    public void paintComponent(final Graphics theGraphics) { 
+        super.paintComponent(theGraphics);
+        final Graphics2D g2d = (Graphics2D) theGraphics;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
+                             RenderingHints.VALUE_ANTIALIAS_ON);
+ 
+        for (final ShapeInformation currentShapes : myShapes) {
+            g2d.setPaint(currentShapes.getColor());
+            g2d.setStroke(new BasicStroke(currentShapes.getWidth()));
+            g2d.draw(currentShapes.getShape());   
+        }
+        
+        if (myDraggingShape.getShape() != null) {
+            g2d.setStroke(new BasicStroke(myDraggingShape.getWidth()));
+                          /*, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)*/
+            g2d.setPaint(myDraggingShape.getColor());
+            g2d.draw(myDraggingShape.getShape());
+        }
+    }
+    //connects the mouse adapter to the drawing panel when create a new drawing panel object.
+    private void setUpMouseListners() {
+        final MouseInputAdapter connect = new MyMouseInputAdapter();
+        addMouseListener(connect);
+        addMouseMotionListener(connect);
+    }
+    //This will get the Primary color from the PowerPaintGUI.
+    public void setPrimaryColor(final Color theColor) {
+        myPrimaryColor = theColor;
+        if (myCurrentTool instanceof EraserTool) {
+            myPrimaryColor = Color.WHITE;
+        }
+    }
+    //This will get the Secondary color from the PowerPaintGUI.
+    public void setSecondaryColor(final Color theColor) {
+        mySecondaryColor = theColor;
+        if (myCurrentTool instanceof EraserTool) {
+            mySecondaryColor = Color.WHITE;
+        }
+            
+    }
+    public void setSliderWidth(final Integer theWidth) {
+        myWidth = theWidth;
+    }
+    public void setTool(final DrawTool theTool) {
+        myCurrentTool = theTool;
+    }
+    public void setClearList() {
+        myShapes.clear();
+        myDraggingShape.setShape(null);
+        repaint();
+    }
+    //create a inner class here this will take care of all the mouse listener stuff.
+    public class MyMouseInputAdapter extends MouseInputAdapter {
+        
+        //these methods are found in MouseListener
+        @Override
+        public void mousePressed(final MouseEvent theEvent) {
+            myCurrentTool.setStartPoint(theEvent.getPoint());
+            if (myCurrentTool instanceof EraserTool) {
+                myCurrentColor = Color.WHITE;
+                myCurrentShape = new ShapeInformation(myCurrentTool.getShape(), myCurrentColor, myWidth);
+            } else {
+                myCurrentShape = new ShapeInformation(myCurrentTool.getShape(), myCurrentColor, myWidth);
+            }
+            myCurrentShape = new ShapeInformation(myCurrentTool.getShape(), myCurrentColor, myWidth);
+          
+            if (theEvent.getButton() == MouseEvent.BUTTON1) {
+                if (!(myCurrentTool instanceof EraserTool)) {
+                    myCurrentColor = myPrimaryColor;
+                    myCurrentShape.setColor(myPrimaryColor);
+                } 
+            } else {
+                if (!(myCurrentTool instanceof EraserTool)) {
+                    myCurrentColor = mySecondaryColor;
+                    myCurrentShape.setColor(mySecondaryColor);
+                } 
+            }
+            
+        }
+        
+        @Override
+        public void mouseReleased(final MouseEvent theEvent) {
+            myCurrentTool.setEndPoint(theEvent.getPoint());
+ 
+            myCurrentShape.setShape(myCurrentTool.getShape());
+            myCurrentShape.setWidth(myWidth);
+            myShapes.add(myCurrentShape);
+            myPowerPaint.resetPencilTool();
+            repaint();
+        }
+        
+        @Override
+        public void mouseDragged(final MouseEvent theEvent) {
+            myCurrentTool.setEndPoint(theEvent.getPoint());
+            
+            myDraggingShape.setShape(myCurrentTool.getShape());
+            myDraggingShape.setColor(myCurrentColor);
+            myDraggingShape.setWidth(myWidth);
+          
+            repaint();
+        }
+        
+        @Override
+        public void mouseEntered(final MouseEvent theEvent) {
+            setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+        }
+    }
+}

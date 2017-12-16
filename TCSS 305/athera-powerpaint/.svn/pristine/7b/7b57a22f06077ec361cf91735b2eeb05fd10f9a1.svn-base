@@ -1,0 +1,32 @@
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
+
+import javax.swing.Icon;
+
+public class CustomIcon implements Icon{
+    final private Color myColor;
+    
+    public CustomIcon(Color theColor) {
+        myColor = theColor;
+    }
+
+    @Override
+    public void paintIcon(final Component theComponet, final Graphics theGraphic,
+                          final int theX, final int theY) {
+        // TODO Auto-generated method stub
+        
+    }
+    @Override
+    public int getIconWidth() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public int getIconHeight() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+}

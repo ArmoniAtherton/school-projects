@@ -1,0 +1,42 @@
+package shape;
+
+import java.awt.Color;
+import java.awt.Shape;
+
+public class ShapeInformation {
+    
+    private Color myColor;
+    private Integer myWidth;
+    private Shape myShape;
+    
+    public ShapeInformation(final Shape theShape, final Color theColor, final Integer theWidth) {
+        myColor = theColor;
+        myShape = theShape;
+        myWidth = theWidth;
+    }
+    public Color getColor() {
+        return myColor;
+        
+    }
+    
+    public Shape getShape() {
+        return myShape;
+    }
+ 
+    public Integer getWidth() {
+        return myWidth;
+    }
+    public void setShape(Shape theShape) {
+        myShape = theShape;
+    }
+    
+    public void setColor(Color theColor) {
+        myColor = theColor;
+    }
+    
+    public void setWidth(Integer theWidth) {
+        myWidth = theWidth;
+    }
+    
+}
+

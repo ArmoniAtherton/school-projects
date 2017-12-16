@@ -1,0 +1,9 @@
+package model;
+
+public class Taxi extends AbstractVehicle implements Vehicle {
+
+    public Taxi() {
+        // TODO Auto-generated constructor stub
+    }
+
+}

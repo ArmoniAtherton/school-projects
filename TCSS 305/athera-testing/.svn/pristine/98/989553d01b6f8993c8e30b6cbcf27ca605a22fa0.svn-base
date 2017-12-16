@@ -1,0 +1,136 @@
+/*
+ * Header
+ * 
+ */
+package test;
+
+import static org.junit.Assert.*;
+
+import java.awt.Color;
+import java.awt.Point;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import shapes.Circle;
+
+/**
+ * @author Armoni
+ *
+ */
+public class CircleTest {
+    private Circle myCircleDefault;
+    private Circle myCircleTesting;
+    private Point myPointTest;
+    private Color myColorTest;
+
+    /**
+     * @throws java.lang.Exception
+     */
+    @Before
+     public void setUp() throws Exception {
+        myPointTest = new Point(5, 5);
+        myColorTest = new Color(5, 5, 5);
+        myCircleDefault = new Circle();
+        //System.out.println(myCircleDefault.DEFAULT_RADIUS);
+        myCircleTesting = new Circle(10, myPointTest, myColorTest);
+        //myCircleTesting.setCenter(thePoint);
+    }
+
+    /**
+     * Test method for {@link shapes.Circle#Circle(double, java.awt.Point, java.awt.Color)}.
+     */
+    @Test
+    public void testCircleDoublePointColor() {
+        fail("Not yet implemented");
+    }
+
+    /**
+     * Test method for {@link shapes.Circle#Circle()}.
+     */
+    @Test
+    public void testCircle() {
+        fail("Not yet implemented");
+    }
+
+    /**
+     * Test method for {@link shapes.Circle#setRadius(double)}.
+     */
+    @Test
+    public void testSetRadius() {
+        fail("Not yet implemented");
+    }
+
+    /**
+     * Test method for {@link shapes.Circle#setCenter(java.awt.Point)}.
+     */
+    @Test
+    public void testSetCenter() {
+        fail("Not yet implemented");
+    }
+
+    /**
+     * Test method for {@link shapes.Circle#setColor(java.awt.Color)}.
+     */
+    @Test
+    public void testSetColor() {
+        fail("Not yet implemented");
+    }
+
+    /**
+     * Test method for {@link shapes.Circle#getRadius()}.
+     */
+    @Test
+    public void testGetRadius() {
+        fail("Not yet implemented");
+    }
+
+    /**
+     * Test method for {@link shapes.Circle#getCenter()}.
+     */
+    @Test
+    public void testGetCenter() {
+        fail("Not yet implemented");
+    }
+
+    /**
+     * Test method for {@link shapes.Circle#getColor()}.
+     */
+    @Test
+    public void testGetColor() {
+        fail("Not yet implemented");
+    }
+
+    /**
+     * Test method for {@link shapes.Circle#calculateDiameter()}.
+     */
+    @Test
+    public void testCalculateDiameter() {
+        fail("Not yet implemented");
+    }
+
+    /**
+     * Test method for {@link shapes.Circle#calculateCircumference()}.
+     */
+    @Test
+    public void testCalculateCircumference() {
+        fail("Not yet implemented");
+    }
+
+    /**
+     * Test method for {@link shapes.Circle#calculateArea()}.
+     */
+    @Test
+    public void testCalculateArea() {
+        fail("Not yet implemented");
+    }
+
+    /**
+     * Test method for {@link shapes.Circle#toString()}.
+     */
+    @Test
+    public void testToString() {
+        fail("Not yet implemented");
+    }
+
+}

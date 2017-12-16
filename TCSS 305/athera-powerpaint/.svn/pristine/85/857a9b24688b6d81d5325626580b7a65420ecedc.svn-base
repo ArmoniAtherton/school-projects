@@ -1,0 +1,17 @@
+package tools;
+
+
+import java.awt.Shape;
+import java.awt.geom.Rectangle2D;
+
+public class RectangleTool extends AbstractDrawTool {
+    
+    @Override
+    public Shape getShape() {
+        final Rectangle2D.Double currentRectangle = new Rectangle2D.Double();
+        currentRectangle.setFrameFromDiagonal(getStartPoint(), getEndPoint());
+        return currentRectangle;
+
+    }
+    
+}

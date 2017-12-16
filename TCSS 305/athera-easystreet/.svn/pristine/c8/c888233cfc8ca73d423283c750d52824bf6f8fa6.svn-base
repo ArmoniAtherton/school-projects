@@ -1,0 +1,56 @@
+package model;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
+public class Truck extends AbstractVehicle implements Vehicle {
+    private Direction myLastDir;
+    public Truck(int theX, int theY, Direction theDir) {
+        super(theX, theY, theDir, 0);
+        myLastDir = theDir;
+    }
+    //Change this 
+    @Override
+    public boolean canPass(Terrain theTerrain, Light theLight) {
+        boolean truckCanPass = false;
+        if (theTerrain == Terrain.CROSSWALK && theLight == Light.RED) {
+            truckCanPass = false;
+
+        } else if (theTerrain == Terrain.STREET || theTerrain == Terrain.LIGHT
+                 || theTerrain == Terrain.CROSSWALK) {
+            truckCanPass = true;
+        }
+        return truckCanPass;
+
+    }
+
+    @Override
+    public Direction chooseDirection(Map<Direction, Terrain> theNeighbors) {
+        Direction result = null;
+        final List<Direction> possibleDirections = new ArrayList<Direction>();
+        
+        if ((myLastDir != myLastDir.reverse()) && (theNeighbors.get(myLastDir) == Terrain.STREET || theNeighbors.get(myLastDir) == Terrain.LIGHT ||theNeighbors.get(myLastDir) == Terrain.CROSSWALK)) {
+            possibleDirections.add(myLastDir);
+        }
+        if ((myLastDir != myLastDir.reverse()) && (theNeighbors.get(myLastDir.left()) == Terrain.STREET || theNeighbors.get(myLastDir.left()) == Terrain.LIGHT ||theNeighbors.get(myLastDir.left()) == Terrain.CROSSWALK)) {
+            possibleDirections.add(myLastDir.left());
+        }
+        if (myLastDir != myLastDir.reverse() && (theNeighbors.get(myLastDir.right()) == Terrain.STREET || theNeighbors.get(myLastDir.right()) == Terrain.LIGHT ||theNeighbors.get(myLastDir.right()) == Terrain.CROSSWALK)) {
+            possibleDirections.add(myLastDir.right());
+        }
+        
+        if (possibleDirections.isEmpty()) {
+            result = myLastDir.reverse();
+            myLastDir = myLastDir.reverse();
+        } 
+        if (!possibleDirections.isEmpty()) {
+            final Random random = new Random();
+            result = possibleDirections.get(random.nextInt(possibleDirections.size()));
+            myLastDir = result;
+        }
+        return result;
+    }
+
+}

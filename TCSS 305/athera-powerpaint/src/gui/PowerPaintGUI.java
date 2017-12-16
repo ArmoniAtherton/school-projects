@@ -1,0 +1,401 @@
+/*
+ * PowerPaintGUI.java
+ * 
+ * TCSS 305 - Fall 2017
+ * Instructor: Charles Bryan
+ * Assignment-5
+ */
+package gui;
+
+import com.sun.glass.events.KeyEvent;
+import draw.DrawingPanel;
+import icon.CustomIcon;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.ImageIcon;
+import javax.swing.JColorChooser;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JSlider;
+import javax.swing.JToolBar;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import tools.DrawTool;
+import tools.EllipseTool;
+import tools.EraserTool;
+import tools.LineTool;
+import tools.PencilTool;
+import tools.RectangleTool;
+
+/**
+ * This class sets the GUI so that user can interact with the program.
+ * The frame and all of its components are set up and organized.
+ * 
+ * @author Armoni Atherton athera@uw.edu
+ * @version November 5, 2017 
+ */
+public class PowerPaintGUI implements PropertyChangeListener {
+    
+    /** The default name for property change listener. */
+    public static final String CLEAR = "Clear";
+    
+    /** The default image for the about section. */
+    private static final String HUSKY_W = "/images/W-Logo.png";
+    
+    /** The default title for this program. */
+    private static final String ASSIGNMENT_5 = "Assignment 5";
+    
+    /** The default name for primary color name. */
+    private static final String PRIMARY_COLOR = "Primary Color...";
+    
+    /** The default primary ticking space for the slider.  */
+    private static final int FIRST_TICKING_SPACE = 10;
+    
+    /** The default secondary ticking space for the slider. */
+    private static final int SECONDARY_TICKING_SPACE = 5;
+    
+    /** The initial slider starting width. */
+    private static final int INITIAL_SLIDER = 10;
+    
+    /** The default access number to the third element in array. */
+    private static final int THIRD_INDEX_OF_ARRAY = 3;
+    
+    /** The default access number to the fourth element in array. */
+    private static final int FOURTH_INDEX_OF_ARRAY = 4;
+    
+    /** The default Color for primary click. */
+    private static final Color HUSKY_PURPLE = new Color(51, 0, 111);
+    
+    /** The default Color for secondary click. */
+    private static final Color HUSKY_GOLD = new Color(232, 211, 162);
+    
+    /** The main frame to hold all components. */
+    private final JFrame myFrame;
+    
+    /** The menu bar to hold all the options. */
+    private JMenuBar myMenuBar;
+    
+    /** The clear button item. */
+    private JMenuItem myClearButton;
+    
+    /** The  drawing panel that allows users to draw shapes. */
+    private DrawingPanel myDrawingPanel;
+    
+    /** The  tool bar to hold all the different tools. */
+    private JToolBar myToolBar;
+    
+    /** The primary color selected. */
+    private Color myPrimaryColor;
+    
+    /** The secondary color selected. */
+    private Color mySecondaryColor;
+    
+    /** The currently selected width for the shape. */
+    private int mySliderWidth;
+    
+    /** The list of all the tools connect by actions. */
+    private List<ToolAction> myToolActions;
+    
+    /** The list of all the tools. */
+    private List<DrawTool> myDrawTool;
+    
+    /**
+     * This constructs the main frame and all the 
+     * properties added to it.
+     */
+    public PowerPaintGUI() {
+        myFrame = new JFrame(ASSIGNMENT_5);
+        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setUpFields();
+        setUpDrawTool();
+        setUpActions();
+        
+    }
+    
+    /**
+     * This a helper method for the constructor to help 
+     * set up all the fields. 
+     */
+    private void setUpFields() {
+        myMenuBar = new JMenuBar();
+        myToolBar = new JToolBar();
+        myDrawingPanel = new DrawingPanel();
+        myDrawingPanel.addPropertyChangeListener(this);
+        myPrimaryColor = HUSKY_PURPLE;
+        mySecondaryColor = HUSKY_GOLD;
+        mySliderWidth = INITIAL_SLIDER;
+    }
+    
+    /**
+     * This a helper method for the constructor to help 
+     * set all the tools to be used.
+     */
+    private void setUpDrawTool() {
+        myDrawTool = new ArrayList<DrawTool>();
+        myDrawTool.add(new PencilTool());
+        myDrawTool.add(new LineTool());
+        myDrawTool.add(new RectangleTool());
+        myDrawTool.add(new EllipseTool());
+        myDrawTool.add(new EraserTool());
+    }
+    
+    /**
+     * This is called by the main and sets up panels while also 
+     * filling all the panels with correct information by different calls
+     * to methods.
+     */
+    public void start() {
+        //sets the icon image when docking.
+        setUpLayout();
+        final CreateToolBar toolBar = new CreateToolBar("ToolBar", myToolActions);
+        myToolBar = toolBar.getToolBar();
+        myFrame.add(myToolBar, BorderLayout.SOUTH);
+        myFrame.add(myDrawingPanel, BorderLayout.CENTER);
+        myFrame.pack();
+        myFrame.setVisible(true);
+    }
+    
+    /**
+     * This will set up the layout and call other methods to fill up 
+     * the menu bar to add to the frame.
+     */
+    private void setUpLayout() {
+        //Sets up the options menu.
+        myMenuBar.add(buildOptionsMenu());
+        //Sets up the tool menu.
+        final CreateToolMenu toolMenu = new CreateToolMenu("Tools", myToolActions);
+        myMenuBar.add(toolMenu.getToolMenu());
+        //Sets up the help menu.
+        myMenuBar.add(buildHelpMenu());
+        myFrame.setJMenuBar(myMenuBar);
+    }
+    
+    /**
+     * This will assign to each tool a action that will be used only 
+     * once. This allows for multiple tools to share the same action.
+     */
+    private void setUpActions() {
+        myToolActions = new ArrayList<ToolAction>();
+        myToolActions.add(new ToolAction("Pencil", false, KeyEvent.VK_P,
+                          new ImageIcon(getClass().
+                                        getResource("/images/pencil.gif")), 
+                                        myDrawTool.get(0), myDrawingPanel));
+        myToolActions.add(new ToolAction("Line", true, KeyEvent.VK_L,
+                                         new ImageIcon(getClass().
+                                                       getResource("/images/line.gif")), 
+                                                       myDrawTool.get(1), myDrawingPanel));
+        myToolActions.add(new ToolAction("Rectangle", false, KeyEvent.VK_R,
+                                         new ImageIcon(getClass().
+                                                       getResource("/images/rectangle.gif")), 
+                                                       myDrawTool.get(2), myDrawingPanel));
+        myToolActions.add(new ToolAction("Ellipse", false, KeyEvent.VK_E,
+                                         new ImageIcon(getClass().
+                                                       getResource("/images/ellipse.gif")), 
+                                                       myDrawTool.get(THIRD_INDEX_OF_ARRAY), 
+                                                       myDrawingPanel));
+        myToolActions.add(new ToolAction("Eraser", false, KeyEvent.VK_A,
+                                         new ImageIcon(getClass().
+                                                       getResource("/images/eraser.gif")), 
+                                                       myDrawTool.get(FOURTH_INDEX_OF_ARRAY), 
+                                                       myDrawingPanel));
+        
+    }
+    
+    /**
+     * This will build the options menu and populate it 
+     * with the correct information using calls to other methods.
+     * 
+     * @return this will send back a populate options menu.
+     */
+    private JMenu buildOptionsMenu() {
+        final JMenu menu = new JMenu("Options");
+        menu.setMnemonic(KeyEvent.VK_O);
+        menu.add(buildSubMenu());
+        menu.addSeparator();
+        final JMenuItem primaryItem = buildSimpleMenuItem(PRIMARY_COLOR, 
+                                                   KeyEvent.VK_P, 
+                                                   new Color(51, 0, 111));             
+        menu.add(primaryItem);
+
+        final JMenuItem secondaryItem = buildSimpleMenuItem("Secondary Color...",
+                                                    KeyEvent.VK_S, new Color(232, 211, 162));
+        menu.add(secondaryItem);
+        menu.addSeparator();
+        myClearButton = buildSimpleMenuItemClear(CLEAR);
+        myClearButton.setMnemonic(KeyEvent.VK_C);
+        menu.add(myClearButton);
+        return menu;
+    }
+    
+    /**
+     * This sets up the thickness menu and calls other methods
+     * to populate it with a jSlider.
+     * 
+     * @return will send back a populated thickness menu.
+     */
+    private JMenu buildSubMenu() {
+        final JMenu subMenu = new JMenu("Thickness");
+        subMenu.setMnemonic(KeyEvent.VK_T);
+        subMenu.add(buildSimpleJSlider());
+        return subMenu;
+    }
+    
+    /**
+     * This will create the slider for selecting the width 
+     * of the shape to be drawn.
+     * 
+     * @return the slider to be added to the menu.
+     */
+    private JSlider buildSimpleJSlider() {
+        final JSlider slider = new JSlider(0, 20);
+        slider.setMajorTickSpacing(FIRST_TICKING_SPACE);
+        slider.setMajorTickSpacing(SECONDARY_TICKING_SPACE);
+        slider.setMinorTickSpacing(1);
+        slider.setPaintLabels(true);
+        slider.setPaintTicks(true);
+        slider.setValue(mySliderWidth);
+        myDrawingPanel.setSliderWidth(mySliderWidth);
+        slider.addChangeListener(new ChangeListener() {
+            
+            @Override
+            public void stateChanged(final ChangeEvent theEvent) {
+                mySliderWidth = ((JSlider) theEvent.getSource()).getValue();
+                myDrawingPanel.setSliderWidth(mySliderWidth);
+                
+            }
+        });
+        return slider;
+    }
+    
+    /**
+     * This method sets up the menu for primary color and secondary 
+     * color items and assigns to them a action listener.
+     * 
+     * @param theText the name of the item.
+     * @param theMnemonic the mnemonic for the specific item.
+     * @param theColor the current color for the item.
+     * @return the items correct color.
+     */
+    private JMenuItem buildSimpleMenuItem(final String theText, 
+                                          final int theMnemonic, 
+                                          final Color theColor) {
+        final CustomIcon icon = new CustomIcon(theColor);
+        final JMenuItem item = new JMenuItem(theText, icon);
+        item.setMnemonic(theMnemonic);
+        item.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent theEvent) {
+                
+                if (PRIMARY_COLOR.equals(theText)) {
+                    myPrimaryColor = setColor(theText, theColor);
+                    //Used to pass the color to the Drawing Panel Class.
+                    myDrawingPanel.setPrimaryColor(myPrimaryColor);
+                    icon.changeColor(myPrimaryColor, myMenuBar);
+                } else {
+                    mySecondaryColor = setColor(theText, theColor);
+                    //Used to pass the color to the Drawing Panel Class.
+                    myDrawingPanel.setSecondaryColor(mySecondaryColor);
+                    icon.changeColor(mySecondaryColor, myMenuBar);
+                }
+                
+            }
+        });
+        return item;
+    }
+    
+    /**
+     * This sets up the color chooser for the user to pick the 
+     * color that they selected. 
+     * 
+     * @param theText the title of the color chooser.
+     * @param theDefaultColor the initial color selected.
+     * @return the color the user selected.
+     */
+    private Color setColor(final String theText, final Color theDefaultColor) {
+        Color finalColor = null;
+        //So sets to default color to default
+        final Color initialcolor = theDefaultColor;
+        finalColor = JColorChooser.showDialog(myFrame, theText, initialcolor);
+        if (finalColor == null) {
+            finalColor = initialcolor;
+        } 
+        return finalColor;
+    }
+    
+    /**
+     * This will set up the clear item and add it to a menu item. Will
+     * set up the action listener allowing the button to be functional.
+     * 
+     * @param theText the name of the item.
+     * @return the menu item named clear.
+     */
+    private JMenuItem buildSimpleMenuItemClear(final String theText) {
+        final JMenuItem item = new JMenuItem(theText);
+        item.setEnabled(false);
+        item.addActionListener(new ActionListener() {
+            
+            /**
+             * This method will clear enable or disable the clear 
+             * button and clear the drawing panel if selected.
+             */
+            @Override
+            public void actionPerformed(final ActionEvent theEvent) {
+                myDrawingPanel.setClearList();
+                item.setEnabled(false); 
+            }
+        });
+        return item;
+    }
+
+    /**
+     * This will build the help and about menu to add to the menu bar.
+     * Will populate it with correct information to display to the user.
+     * 
+     * @return the a populated menu with correct information.
+     */
+    private JMenu buildHelpMenu() {
+        final JMenu help = new JMenu("Help");
+        help.setMnemonic(KeyEvent.VK_H);
+        
+        final JMenuItem about = new JMenuItem("About...");
+        about.setMnemonic(KeyEvent.VK_A);
+        help.add(about);
+        final ImageIcon icon = new ImageIcon(getClass().getResource(HUSKY_W));
+        
+        about.addActionListener(new ActionListener() {
+            /**
+             * This will open up a about section for the project.
+             */
+            @Override
+            public void actionPerformed(final ActionEvent theEvent) {
+                JOptionPane.
+                            showMessageDialog(myFrame,
+                            "Armoni Atherton\nAutumn 2017\nTCSS 305 " + ASSIGNMENT_5,
+                            ASSIGNMENT_5, JOptionPane.INFORMATION_MESSAGE,
+                            icon);    
+            }
+        });
+        return help;
+    }
+    
+    /**
+     * This will listen for property change events will set 
+     * the clear button enabled if told to do so.
+     */
+    @Override
+    public void propertyChange(final PropertyChangeEvent theEvt) {
+        if (CLEAR.equals(theEvt.getPropertyName())) {
+            myClearButton.setEnabled((boolean) theEvt.getNewValue());
+           
+        }
+    }
+}

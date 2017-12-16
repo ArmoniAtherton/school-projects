@@ -1,0 +1,92 @@
+/*
+ * CustomIcon.java
+ * 
+ * TCSS 305 - Fall 2017
+ * Instructor: Charles Bryan
+ * Assignment-5
+ */
+package icon;
+
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
+import javax.swing.Icon;
+import javax.swing.JMenuBar;
+
+/**
+ * This class creates the custom icon to be used 
+ * for showing the current selected color into a 
+ * box for the user to see.
+ * 
+ * @author Armoni Atherton athera@uw.edu
+ * @version November 5, 2017 
+ */
+public class CustomIcon implements Icon {
+    
+    /** The default width for the icon. */
+    private static final int MY_WIDTH = 14;
+    
+    /** The default height for the icon. */
+    private static final int MY_HEIGHT = 14;
+    
+    /** The default x position for the icon. */
+    private static final int MY_X = 5;
+    
+    /** The default y position for the icon. */
+    private static final int MY_Y = 3;
+    
+    /** The current color to be displayed in the icon. */
+    private Color myColor;
+        
+    /**
+     * This is the constructor that will set up the color of the icon.
+     * 
+     * @param theColor the incoming color to be used.
+     */
+    public CustomIcon(final Color theColor) {
+        myColor = theColor;
+        
+    }
+    
+    /**
+     * This will paint the box that will hold the currently
+     * selected color.
+     */
+    @Override
+    public void paintIcon(final Component theComponet, final Graphics theGraphic,
+                          final int theX, final int theY) {
+        theGraphic.setColor(myColor);
+        theGraphic.fillRect(MY_X, MY_Y, MY_WIDTH, MY_HEIGHT);
+        theGraphic.setColor(Color.BLACK);
+        theGraphic.drawRect(MY_X, MY_Y, MY_WIDTH, MY_HEIGHT);        
+    }
+    
+    /**
+     * This will get the width of the icon.
+     */
+    @Override
+    public int getIconWidth() {
+        return MY_WIDTH;
+    }
+
+    /**
+     * This will get the icon height.
+     */
+    @Override
+    public int getIconHeight() {
+        return MY_WIDTH;
+    }
+    
+    /**
+     * This will change the current color in the icon and will repaint when 
+     * given the new color.
+     * 
+     * @param theColor the new color to be repainted.
+     * @param theMenuBar the incoming menu bar.
+     */
+    public void changeColor(final Color theColor, final JMenuBar theMenuBar) {
+        myColor = theColor;
+        theMenuBar.repaint();
+            
+    }
+}

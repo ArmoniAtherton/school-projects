@@ -1,0 +1,135 @@
+package model;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
+import com.sun.javafx.geom.transform.BaseTransform.Degree;
+
+public class Human extends AbstractVehicle implements Vehicle {
+    public static final int DEFAULT_HUMAN_DEATH_TIME = 50;
+    private Direction myLastDir;
+
+    public Human(int theX, int theY, Direction theDir) {
+        super(theX, theY, theDir, DEFAULT_HUMAN_DEATH_TIME);
+        myLastDir = theDir;
+        
+    }
+    @Override
+    public boolean canPass(final Terrain theTerrain, final Light theLight) {
+        boolean result = false;
+        if (theTerrain == Terrain.GRASS || (theTerrain == Terrain.CROSSWALK && theLight != Light.GREEN)) {
+            result = true;
+        }
+        return result;  
+    }
+
+    @Override
+    public Direction chooseDirection(final Map<Direction, Terrain> theNeighbors) {
+        Direction resultDirection = null; 
+        final Direction facingTowardsCrossWalk = nextToCrossWalk(theNeighbors); 
+        if (theNeighbors.get(facingTowardsCrossWalk) == Terrain.CROSSWALK) {
+            resultDirection = facingTowardsCrossWalk;
+        } else {
+            List<Direction> possibleDirections = new ArrayList<Direction>();
+            if ((myLastDir != myLastDir.reverse()) && (theNeighbors.get(myLastDir) == Terrain.GRASS || theNeighbors.get(myLastDir) == Terrain.CROSSWALK)) {
+                possibleDirections.add(myLastDir);
+            }
+            if ((myLastDir != myLastDir.reverse()) && (theNeighbors.get(myLastDir.right()) == Terrain.GRASS || theNeighbors.get(myLastDir.right()) == Terrain.CROSSWALK)) {
+                possibleDirections.add(myLastDir.right());
+            }
+            if ((myLastDir != myLastDir.reverse()) && (theNeighbors.get(myLastDir.left()) == Terrain.GRASS || theNeighbors.get(myLastDir.left()) == Terrain.CROSSWALK)) {
+                possibleDirections.add(myLastDir.left());
+            }
+            
+            if (possibleDirections.isEmpty()) {
+                resultDirection = myLastDir.reverse(); 
+                myLastDir = myLastDir.reverse();
+            } 
+            if (!possibleDirections.isEmpty()) {
+                final Random random = new Random();
+                resultDirection = possibleDirections.get(random.nextInt(possibleDirections.size()));
+                myLastDir = resultDirection;
+            }
+        }
+        return resultDirection;
+    }   
+        
+        
+        
+        
+//        //Controls when the loop stops.
+//        boolean flag = true;
+//        //Stores a valid direction to go.
+//        Direction resultDirection = null;
+//        //Call to check if cross walk to face towards but only if you don't have to reverse.
+//        final Direction facingTowardsCrossWalk = nextToCrossWalk(theNeighbors);
+//        //if you are not facing sidewalk continue to while loop.
+//        //Will not change lastdir because you want it to stay at the same cross walk.
+//        if (facingTowardsCrossWalk != null) {
+//            resultDirection = facingTowardsCrossWalk;
+//            flag = false;
+//        } else if () {
+//            //Will iterate until finding a valid direction.
+//            while (flag) {
+//                //Stores a random direction such as north, east, south, west.
+//                final Direction randomDirection = Direction.random();
+//                //Stores the terrain of a random direction and sees if valid.
+//                final Terrain vaildDirection = theNeighbors.get(randomDirection);
+//                //If valid direction will set to a variable to be returned.
+//                if (myLastDir.reverse() != randomDirection && vaildDirection == Terrain.GRASS || vaildDirection == Terrain.CROSSWALK ) {
+//                    resultDirection = randomDirection;
+//                    myLastDir = randomDirection;
+//                    flag = false;
+//                } else {
+//                    resultDirection = myLastDir.reverse();
+//                    myLastDir = myLastDir.reverse();
+//                    flag = false;
+//                }
+//            }
+//        }
+//        return resultDirection;
+//    }
+    
+    
+    
+   
+    
+//    private Direction reverseDirections() {
+//        Direction resultDirection = null;
+//        return resultDirection;
+//    }
+
+    
+    //JUST CHECKS IF A NEXT TO A CROSS WALK.
+    private Direction nextToCrossWalk(final Map<Direction, Terrain> theNeighbors) {
+        Direction resultDirection = null;
+        if (theNeighbors.get(myLastDir) == Terrain.CROSSWALK ) {
+            resultDirection = myLastDir;
+        } else if (theNeighbors.get(myLastDir.right()) == Terrain.CROSSWALK) {
+            resultDirection = myLastDir.right();
+        } else if (theNeighbors.get(myLastDir.left()) == Terrain.CROSSWALK) {
+            resultDirection = myLastDir.left();
+        }
+        return resultDirection;
+    } 
+//        Direction resultDirection = null;
+//        final Terrain east = theNeighbors.get(Direction.EAST); 
+//        final Terrain west = theNeighbors.get(Direction.WEST); 
+//        final Terrain north = theNeighbors.get(Direction.NORTH); 
+//        final Terrain south = theNeighbors.get(Direction.SOUTH); 
+//        //These If Else Statements check if human next to a cross walk choose direction.
+//        if ((myLastDir.reverse() != Direction.WEST) && (east == Terrain.CROSSWALK)) {
+//            resultDirection = Direction.EAST;
+//        } else if ((myLastDir.reverse() != Direction.EAST) && (west == Terrain.CROSSWALK)) {
+//            resultDirection = Direction.WEST;
+//        } else if ((myLastDir.reverse() != Direction.SOUTH) && (north == Terrain.CROSSWALK)) {
+//            resultDirection = Direction.NORTH;  
+//        } else if ((myLastDir.reverse() != Direction.NORTH) && (south == Terrain.CROSSWALK)) {
+//            resultDirection = Direction.SOUTH; 
+//        } 
+//        return resultDirection;
+//    }
+
+}

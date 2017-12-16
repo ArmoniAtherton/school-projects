@@ -1,0 +1,24 @@
+package tools;
+
+import java.awt.Shape;
+import java.awt.geom.Path2D;
+
+public class PencilTool extends AbstractDrawTool {
+    private Path2D.Double myPencil;
+    
+    public PencilTool() {
+        super();
+        myPencil = new Path2D.Double(); 
+    }
+    @Override
+    public Shape getShape() {
+        myPencil.moveTo(getStartPoint().getX(), getStartPoint().getY());
+        myPencil.lineTo(getEndPoint().getX(), getEndPoint().getY());
+        setStartPoint(getEndPoint());
+    
+        return myPencil;
+    }
+    public void resetTool() {
+        myPencil = new Path2D.Double(); 
+    }
+}

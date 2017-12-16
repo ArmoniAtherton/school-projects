@@ -1,0 +1,222 @@
+// finish (and comment) me!
+
+package gui;
+
+import filters.EdgeDetectFilter;
+import filters.EdgeHighlightFilter;
+import filters.Filter;
+import filters.FlipHorizontalFilter;
+import filters.FlipVerticalFilter;
+import filters.GrayscaleFilter;
+import filters.SharpenFilter;
+import filters.SoftenFilter;
+import image.PixelImage;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+
+/**
+ * 
+ * @author ???
+ * @version ???
+ */
+public class SnapShopGUI {
+    //private static final Dimension FRAME_SIZE = new Dimension(400, 400);
+    private static final int COLUMN = 1;
+    private static final int ROW = 0;
+    private final JFrame myFrame;
+    private final List<JButton> myButtons;
+    private PixelImage myImage;
+    private final JLabel myIconLabel;
+    private final JFileChooser myCurrentChooser;
+    private final JPanel myCurrentFilters;
+    private final JPanel myCurrentDirectories;
+    private final JButton myOpenFile;
+    private final JButton mySaveFileAs;
+    private final JButton myCloseFile;
+    private File myCurrentDirectory;
+    
+    
+   
+    public SnapShopGUI() {
+        myFrame = new JFrame("TCSS 305 SnapShop");
+        myButtons = new ArrayList<>();
+        myIconLabel = new JLabel(new ImageIcon());
+        myCurrentChooser = new JFileChooser();
+        myCurrentFilters = new JPanel(new GridLayout(ROW, COLUMN));
+        myCurrentDirectories = new JPanel(new GridLayout(ROW, COLUMN));
+        myOpenFile = new JButton("Open...");
+        mySaveFileAs = new JButton("Save As...");
+        myCloseFile = new JButton("Close Image");
+        myCurrentDirectory = new File(".");
+
+        
+    }
+    public void start() {
+        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //This sets up the layout how it will 
+        setUpLayoutManger();
+        setUpActionListnersUtility();
+        setUpFilterObjects();
+        myFrame.pack();
+        //myFrame.setLocationRelativeTo(null);
+        myFrame.setMinimumSize(myFrame.getSize());
+        myFrame.setVisible(true);
+        
+    }
+    public void setUpLayoutManger() {
+        
+        //Creates all the layouts within the main one.
+        final JPanel userOptions = new JPanel(new BorderLayout());
+        final JPanel filterOptions = new JPanel(new FlowLayout());
+        final JPanel fileSelectorOptions = new JPanel(new FlowLayout());
+        
+        //This will hold all the layouts in correct ways
+        //main frame
+        myFrame.add(userOptions, BorderLayout.WEST);
+        //main frame puts the image in center
+        myFrame.add(myIconLabel, BorderLayout.CENTER);
+        //Second border Main Frame adds to north border .
+        userOptions.add(filterOptions, BorderLayout.NORTH);
+        //Second border Main Frame adds to the south border.
+        userOptions.add(fileSelectorOptions, BorderLayout.SOUTH);
+        
+        //Adds the filters to North.
+        filterOptions.add(myCurrentFilters);
+        //Adds the filters to South.
+        fileSelectorOptions.add(myCurrentDirectories);
+        
+    }
+    private void setUpActionListnersUtility() { 
+        myOpenFile.addActionListener(e -> actionOpen(e));
+        myCurrentDirectories.add(myOpenFile);
+        
+        mySaveFileAs.setEnabled(false);
+        mySaveFileAs.addActionListener(e -> actionSaveFileAs(e));
+        myCurrentDirectories.add(mySaveFileAs);
+        
+        myCloseFile.setEnabled(false);
+        myCloseFile.addActionListener(e -> actionCloseFile(e));
+        myCurrentDirectories.add(myCloseFile);
+    }
+    
+    private void setUpFilterObjects() {
+        
+        final List<Filter> filterObjects = new ArrayList<>();
+        filterObjects.add(new EdgeDetectFilter());
+        filterObjects.add(new EdgeHighlightFilter());
+        filterObjects.add(new FlipHorizontalFilter());
+        filterObjects.add(new FlipVerticalFilter());
+        filterObjects.add(new GrayscaleFilter());
+        filterObjects.add(new SharpenFilter());
+        filterObjects.add(new SoftenFilter());
+        
+        //Iterates through all the filters adds them to a list
+        for (final Filter filters : filterObjects) {
+            myButtons.add(createButton(filters));
+        }
+        
+        //Adds all the buttons to the gridLayout.
+        for (final JButton button: myButtons) {
+            button.setEnabled(false);
+            myCurrentFilters.add(button);
+        }
+        
+    }
+    private JButton createButton(final Filter theObject) {
+        final JButton button = new JButton(theObject.getDescription());
+        //This will add a lambda action listener.
+        button.addActionListener(e -> {
+            theObject.filter(myImage);
+            myIconLabel.setIcon(new ImageIcon(myImage));
+        });
+                           
+//        //Add an anonymous inner class to this button. 
+//        button.addActionListener(new ActionListener() {
+//            
+//            @Override
+//            public void actionPerformed(final ActionEvent theEvent) {
+//                theObject.filter(myImage);
+//                myIconLabel.setIcon(new ImageIcon(myImage));
+//                
+//            }
+//        });
+        
+        return button;
+    }
+    
+    public void actionOpen(final ActionEvent theEvent) {
+        myCurrentChooser.setCurrentDirectory(myCurrentDirectory);
+        final int result = myCurrentChooser.showOpenDialog(myFrame);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            myCurrentDirectory = myCurrentChooser.getSelectedFile();
+            try {
+                myImage = PixelImage.load(myCurrentChooser.getSelectedFile());
+                myIconLabel.setIcon(new ImageIcon(myImage));
+                setButtonsVisible(true);
+                setButtons(mySaveFileAs, myCloseFile, true);
+                myFrame.setMinimumSize(new Dimension(0, 0));
+                myFrame.pack();
+                myFrame.setMinimumSize(myFrame.getSize());
+            } catch (final IOException e) {
+                //CHECK THIS !!!!!!
+                JOptionPane.showMessageDialog(myFrame, 
+                                              "The selected file did not contain an image!",
+                                              "Open Error!", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
+    public void actionSaveFileAs(final ActionEvent theEvent) {
+        myCurrentChooser.setCurrentDirectory(myCurrentDirectory);
+        final int result = myCurrentChooser.showSaveDialog(myFrame);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            myCurrentDirectory = myCurrentChooser.getSelectedFile();
+            try {
+                myImage.save(myCurrentChooser.getSelectedFile());
+            } catch (final IOException e) {
+                JOptionPane.showMessageDialog(myFrame, 
+                                             "Problem Occured When Attempting To Save",
+                                             "Saving Error!", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
+    //This closes the file and sets the image Icon to nothing.
+    public void actionCloseFile(final ActionEvent theEvent) {
+        
+        myIconLabel.setIcon(new ImageIcon());
+        setButtonsVisible(false);
+        setButtons(mySaveFileAs, myCloseFile, false);
+        myFrame.setMinimumSize(new Dimension(0, 0));
+        myFrame.pack();
+        myFrame.setMinimumSize(myFrame.getSize());
+    }
+    
+    //Used for enabling all filter buttons on or off.
+    public void setButtonsVisible(final boolean theValue) {
+        for (final JButton button: myButtons) {
+            button.setEnabled(theValue);
+        }
+    }
+    //used for enabling buttons open and save buttons on and off.
+    public void setButtons(final JButton theSaveAs, final JButton theFileClose, final boolean theValue) {
+        theSaveAs.setEnabled(theValue);
+        theFileClose.setEnabled(theValue);
+    }
+}

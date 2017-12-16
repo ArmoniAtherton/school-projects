@@ -1,0 +1,122 @@
+package model;
+
+import java.util.Locale;
+import java.util.Map;
+
+public abstract class AbstractVehicle implements Vehicle {
+    private int myX;
+    private int myY;
+    private Direction myDir;
+    private final int myDeathTime;
+    private int myReviveTimer;
+    private final int myOriginalX;
+    private final int myOriginalY;
+    private final Direction myOriginalDir;
+    
+    public AbstractVehicle(final int theX, final int theY, final Direction theDir, final int theDeathTime) {
+        myX = theX;
+        myY = theY;
+        myDir = theDir;
+        myDeathTime = theDeathTime;
+        myReviveTimer = 0;
+        myOriginalX = theX;
+        myOriginalY = theY;
+        myOriginalDir = theDir;
+           
+    }
+    //Will use in child classes
+    @Override
+    public abstract boolean canPass(Terrain theTerrain, Light theLight);
+    //Will use in child classes.
+    @Override
+    public abstract Direction chooseDirection(Map<Direction, Terrain> theNeighbors);
+    
+    @Override
+    public void collide(final Vehicle theOther) {
+        if (isAlive() && theOther.isAlive() && myDeathTime > theOther.getDeathTime()) {
+            myReviveTimer = myDeathTime;    
+        }
+    }
+
+    @Override
+    public int getDeathTime() {
+        return myDeathTime;
+    }
+
+    @Override
+    public String getImageFileName() {
+        final String className = getClass().getSimpleName().toLowerCase(Locale.US);
+        final StringBuilder builder = new StringBuilder(64);
+        if (isAlive()) {
+            builder.append(className);
+            builder.append(".gif");
+        } else {
+            builder.append(className);
+            builder.append("_dead.gif");
+        }
+        return builder.toString();
+    }
+
+    @Override
+    public Direction getDirection() {
+        return myDir;
+    }
+
+    @Override
+    public int getX() {
+        return myX;
+    }
+
+    @Override
+    public int getY() {
+        return myY;
+    }
+
+    @Override
+    //MYDEATH TIME NEEDS TO BE CORRECTED
+    public boolean isAlive() {
+        boolean flag = false;
+        if (myReviveTimer == 0) {
+            flag = true;
+        }
+        return flag;
+    }
+
+    @Override
+    public void poke() {
+        if (!isAlive()) {
+            if (myReviveTimer == 0) {
+                setDirection(Direction.random());
+            } else {
+                myReviveTimer--;
+            }
+        }
+    }
+
+    @Override
+    public void reset() {
+        myX = myOriginalX;
+        myY = myOriginalY;
+        myDir = myOriginalDir;
+
+    }
+
+    @Override
+    public void setDirection(final Direction theDir) {
+        myDir = theDir;
+
+    }
+
+    @Override
+    public void setX(final int theX) {
+        myX = theX;
+
+    }
+
+    @Override
+    public void setY(final int theY) {
+        myY = theY;
+
+    }
+
+}

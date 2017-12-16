@@ -1,0 +1,17 @@
+package tools;
+
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
+
+
+public class EllipseTool extends AbstractDrawTool {
+    
+    
+    @Override
+    public Shape getShape() {
+        final Ellipse2D.Double currentEllipse = new Ellipse2D.Double();
+        currentEllipse.setFrameFromDiagonal(getStartPoint(), getEndPoint());
+        return currentEllipse;
+
+    }
+}

@@ -1,0 +1,415 @@
+package gui;
+
+import com.sun.glass.events.KeyEvent;
+import draw.DrawingPanel;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JColorChooser;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JSlider;
+import javax.swing.JToggleButton;
+import javax.swing.JToolBar;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+public class PowerPaintGUI {
+    private static final String PENCIL = "Pencil";
+    private static final String LINE = "Line";
+    private static final String RECTANGLE = "Rectangle";
+    private static final String ELLIPSE = "Ellipse";
+    private static final String ERASER = "Eraser";
+    private static final String HUSKY_W = "/images/W-Logo.png";
+    private static final int FIRST_TICKING_SPACE = 10;
+    private static final int SECONDARY_TICKING_SPACE = 5;
+    private final JFrame myFrame;
+    private final JMenuBar myMenuBar;
+    private DrawingPanel myDrawingPanel;
+    private JToolBar myToolBar;
+    private Color myPrimaryColor;
+    private Color mySecondaryColor;
+    private Action myPencil;
+    private Action myLine;
+    private Action myRectangle;
+    private Action myEllipse;
+    private Action myEraser;
+    private int mySliderWidth;
+    
+    public PowerPaintGUI() {
+        myFrame = new JFrame("Assignment 5");
+        myFrame.setSize(500, 300);
+        myFrame.pack();
+        myMenuBar = new JMenuBar();
+        myToolBar = new JToolBar();
+        myDrawingPanel = new DrawingPanel();
+        myPrimaryColor = new Color(51, 0, 111);
+        mySecondaryColor = new Color(232, 211, 162);
+        mySliderWidth = 10;
+        //myPencil = null;
+        //myPencil = new CreatePencil();
+        
+    }
+    
+    public void start() {
+        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //sets the icon image when docking.
+        final ImageIcon image = new ImageIcon(getClass().getResource(HUSKY_W));
+        myFrame.setIconImage(image.getImage());
+        setUpActions();
+        setUpLayout();
+        
+        myToolBar = buildToolBar();
+        myFrame.add(myToolBar, BorderLayout.SOUTH);
+        
+        myFrame.add(myDrawingPanel, BorderLayout.CENTER);
+        myFrame.setSize(500, 300);
+        myFrame.setVisible(true);
+    }
+    public void setUpLayout() {
+        //Sets up the options menu.
+        myMenuBar.add(buildOptionsMenu());
+        //Sets up the tool menu.
+        myMenuBar.add(buildToolMenu());
+        //Sets up the help menu.
+        myMenuBar.add(buildHelpMenu());
+        myFrame.setJMenuBar(myMenuBar);
+    }
+    public void setUpActions() {
+        
+        class CreatePencil extends AbstractAction {
+            /**
+             * 
+             */
+            private static final long serialVersionUID = 7329947802528016108L;
+
+            CreatePencil() {
+                super("Pencil");
+                putValue(SELECTED_KEY, false);
+                putValue(SMALL_ICON, new ImageIcon(getClass().
+                                                   getResource("/images/pencil.gif")));
+            }
+
+            @Override
+            public void actionPerformed(final ActionEvent theEvent) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+        }
+        class CreateLine extends AbstractAction {
+            /**
+             * 
+             */
+            private static final long serialVersionUID = 7319830605284936036L;
+
+            CreateLine() {
+                super("Line");
+                putValue(SELECTED_KEY, true);
+                putValue(SMALL_ICON, new ImageIcon(getClass().
+                                                   getResource("/images/line.gif")));
+            }
+
+            @Override
+            public void actionPerformed(final ActionEvent theEvent) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+        }
+        class CreateRectangle extends AbstractAction {
+            /**
+             * 
+             */
+            private static final long serialVersionUID = 425647462301937613L;
+
+            CreateRectangle() {
+                super("Rectangle");
+                putValue(SELECTED_KEY, false);
+                putValue(SMALL_ICON, new ImageIcon(getClass().
+                                                   getResource("/images/rectangle.gif")));
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+        }
+        class CreateEllipse extends AbstractAction {
+            /**
+             * 
+             */
+            private static final long serialVersionUID = 912875633243087377L;
+
+            CreateEllipse() {
+                super("Ellipse");
+                putValue(SELECTED_KEY, false);
+                putValue(SMALL_ICON, new ImageIcon(getClass().
+                                                   getResource("/images/ellipse.gif")));
+            }
+
+            @Override
+            public void actionPerformed(final ActionEvent theEvent) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+        }
+        class CreateEraser extends AbstractAction {
+            /**
+             * 
+             */
+            private static final long serialVersionUID = -6601588698939690670L;
+
+            CreateEraser() {
+                super("Eraser");
+                putValue(SELECTED_KEY, false);
+                putValue(SMALL_ICON, new ImageIcon(getClass().
+                                                   getResource("/images/eraser.gif")));
+            }
+
+            @Override
+            public void actionPerformed(final ActionEvent theEvent) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+        }
+        myPencil = new CreatePencil();
+        myLine = new CreateLine();
+        myRectangle = new CreateRectangle();
+        myEllipse = new CreateEllipse();
+        myEraser = new CreateEraser();
+        
+    }
+    public JMenu buildOptionsMenu() {
+        final JMenu menu = new JMenu("Options");
+        menu.setMnemonic(KeyEvent.VK_O);
+        
+        menu.add(buildSubMenu());
+        
+        menu.addSeparator();
+        final JMenuItem item = buildSimpleMenuItem1("Primary Color...");
+        item.setMnemonic(KeyEvent.VK_P);                
+        menu.add(item);
+
+        final JMenuItem item2 = buildSimpleMenuItem2("Secondary Color...");
+        item2.setMnemonic(KeyEvent.VK_S);
+        menu.add(item2);
+      
+        menu.addSeparator();
+        final JMenuItem item3 = buildSimpleMenuItem3("Clear");
+        //Change this eventually
+        item3.setEnabled(false);
+        item3.setMnemonic(KeyEvent.VK_C);
+        menu.add(item3);
+        //menu.setMnemonic(KeyEvent.VK_S);
+        
+        return menu;
+    }
+    public JMenu buildSubMenu() {
+        final JMenu subMenu = new JMenu("Thickness");
+        subMenu.setMnemonic(KeyEvent.VK_T);
+        subMenu.add(buildSimpleJSlider());
+        return subMenu;
+    }
+    public JSlider buildSimpleJSlider() {
+        final JSlider slider = new JSlider(0, 20);
+        slider.setMajorTickSpacing(FIRST_TICKING_SPACE);
+        slider.setMajorTickSpacing(SECONDARY_TICKING_SPACE);
+        slider.setMinorTickSpacing(1);
+        slider.setPaintLabels(true);
+        slider.setPaintTicks(true);
+        setSliderWidth();
+        slider.addChangeListener(new ChangeListener() {
+            
+            @Override
+            public void stateChanged(final ChangeEvent theEvent) {
+                mySliderWidth = ((JSlider) theEvent.getSource()).getValue();
+                setSliderWidth();
+                
+            }
+        });
+        return slider;
+    }
+    //sets up action listener gets the color for primary.
+    private JMenuItem buildSimpleMenuItem1(final String theText) {
+        final JMenuItem item = new JMenuItem(theText);
+        
+        item.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(final ActionEvent theEvent) {
+                final Color defaultColor = new Color(51, 0, 111);
+                myPrimaryColor = setColor(theText, defaultColor);
+                //Used to pass the color to the Drawing Panel Class.
+                setPrimaryColor();
+                
+            }
+        });
+        return item;
+    }
+    //sets up the action listener gets the color for the secondary color.
+    private JMenuItem buildSimpleMenuItem2(final String theText) {
+        final JMenuItem item = new JMenuItem(theText);
+        item.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(final ActionEvent theEvent) {
+                final Color defaultColor = new Color(232, 211, 162);
+                mySecondaryColor = setColor(theText, defaultColor);
+                //Used to pass the color to the Drawing Panel Class.
+                setSecondaryColor();
+            }
+        });
+        return item;
+    }
+    //sets the correct color.
+    private Color setColor(final String theText, final Color theDefaultColor) {
+        Color finalColor = null;
+        //So sets to default color to default
+        final Color initialcolor = theDefaultColor;
+        finalColor = JColorChooser.showDialog(myFrame, theText, initialcolor);
+        if (finalColor == null) {
+            finalColor = initialcolor;
+        } 
+        return finalColor;
+    }
+    
+    
+    private JMenuItem buildSimpleMenuItem3(final String theText) {
+        final JMenuItem item = new JMenuItem(theText);
+        item.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(final ActionEvent theEvent) {
+                //Create JColorCHooser here
+               
+            }
+        });
+        return item;
+    }
+    
+    private JMenu buildToolMenu() {
+        final JMenu toolBar = new JMenu("Tools");
+        toolBar.setMnemonic(KeyEvent.VK_T);
+        final ButtonGroup group = new ButtonGroup();
+        
+        final JRadioButtonMenuItem item = createRadioItems(myPencil, group);
+        item.setMnemonic(KeyEvent.VK_P);
+        toolBar.add(item);
+        
+        final JRadioButtonMenuItem item2 = createRadioItems(myLine, group);
+        item2.setMnemonic(KeyEvent.VK_L);
+        //item2.setSelected(true);
+        toolBar.add(item2);
+        
+        final JRadioButtonMenuItem item3 = createRadioItems(myRectangle, group);
+        item3.setMnemonic(KeyEvent.VK_R);
+        toolBar.add(item3);
+        
+        final JRadioButtonMenuItem item4 = createRadioItems(myEllipse, group);
+        item4.setMnemonic(KeyEvent.VK_E);
+        toolBar.add(item4);
+        
+        final JRadioButtonMenuItem item5 = createRadioItems(myEraser, group);
+        item5.setMnemonic(KeyEvent.VK_A);
+        toolBar.add(item5);
+        
+        return toolBar;
+    }
+    private JRadioButtonMenuItem createRadioItems(final Action theName, 
+                                                  final ButtonGroup theGroup) {
+        final JRadioButtonMenuItem radioItems = new JRadioButtonMenuItem(theName);
+        theGroup.add(radioItems);
+        
+        return radioItems;
+    }
+    
+    private JToolBar buildToolBar() {
+        //This method is temporary until fixing to were they are both linked together.
+        final JToolBar toolBar = new JToolBar("ToolBar");
+        final ButtonGroup group = new ButtonGroup();
+        
+        final JToggleButton item = createRadioToolBarItems(myPencil, group);
+        item.setMnemonic(KeyEvent.VK_P);
+        toolBar.add(item);
+        
+        final JToggleButton item1 = createRadioToolBarItems(myLine, group);
+        item1.setMnemonic(KeyEvent.VK_L);
+        toolBar.add(item1);
+        item1.setSelected(true);
+        
+        final JToggleButton item2 = createRadioToolBarItems(myRectangle, group);
+        item2.setMnemonic(KeyEvent.VK_R);
+        toolBar.add(item2);
+        
+        final JToggleButton item3 = createRadioToolBarItems(myEllipse, group);
+        item3.setMnemonic(KeyEvent.VK_E);
+        toolBar.add(item3);
+
+        final JToggleButton item4 = createRadioToolBarItems(myEraser, group);
+        item4.setMnemonic(KeyEvent.VK_A);
+        toolBar.add(item4);
+        
+        
+        return toolBar;
+
+    }
+    private JToggleButton createRadioToolBarItems(final Action theName, 
+                                                  final ButtonGroup theGroup) {
+        final JToggleButton buttons = new JToggleButton(theName);
+        theGroup.add(buttons);
+
+        return buttons;
+    }
+    
+    private JMenu buildHelpMenu() {
+        final JMenu help = new JMenu("Help");
+        help.setMnemonic(KeyEvent.VK_H);
+        
+        final JMenuItem about = new JMenuItem("About...");
+        about.setMnemonic(KeyEvent.VK_A);
+        help.add(about);
+        final ImageIcon icon = new ImageIcon(getClass().getResource(HUSKY_W));
+        
+        about.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(final ActionEvent theEvent) {
+                JOptionPane.
+                            showMessageDialog(myFrame,
+                            "Armoni Atherton\nAutumn 2017\nTCSS 305 Assignment 5",
+                            "Assignment 5", JOptionPane.INFORMATION_MESSAGE,
+                            icon);    
+            }
+        });
+        
+        return help;
+    }
+    
+    private void setPrimaryColor() {
+        myDrawingPanel.getPrimaryColor(myPrimaryColor);
+    }
+    
+    private void setSecondaryColor() {
+        myDrawingPanel.getSecondaryColor(mySecondaryColor);
+    }
+    private void setSliderWidth() {
+        myDrawingPanel.getSliderWidth(mySliderWidth);
+    }
+    
+    
+}

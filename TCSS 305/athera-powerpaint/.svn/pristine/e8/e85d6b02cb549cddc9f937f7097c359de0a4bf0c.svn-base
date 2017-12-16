@@ -1,0 +1,13 @@
+package tools;
+
+import java.awt.Shape;
+
+public class EraserTool extends AbstractDrawTool {
+
+    @Override
+    public Shape getShape() {
+        
+        return null;
+    }
+
+}
