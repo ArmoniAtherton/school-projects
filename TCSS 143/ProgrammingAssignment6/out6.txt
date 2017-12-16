@@ -1,0 +1,62 @@
+The Top Five Familes: 
+
+Number of Words in Anagram Family: 12 
+Canonical form of the Anagram: aeprs 
+Members of family: spear, spare, reaps, rapes, presa, prase, pears, parse, pares, asper, apres, apers 
+
+Number of Words in Anagram Family: 11 
+Canonical form of the Anagram: aelrst 
+Members of family: talers, stelar, staler, slater, salter, ratels, laster, estral, artels, alters, alerts 
+
+Number of Words in Anagram Family: 10 
+Canonical form of the Anagram: aelst 
+Members of family: tesla, teals, tales, taels, stela, steal, stale, slate, setal, least 
+
+Number of Words in Anagram Family: 9 
+Canonical form of the Anagram: aceprs 
+Members of family: spacer, secpar, scrape, recaps, parsec, pacers, escarp, crapes, capers 
+
+Number of Words in Anagram Family: 9 
+Canonical form of the Anagram: aeinrst 
+Members of family: stearin, stainer, retsina, retinas, retains, ratines, nastier, antsier, anestri 
+
+The Families of Eight: 
+
+Number of Words in Anagram Family: 8 
+Canonical form of the Anagram: acerst 
+Members of family: traces, recast, reacts, crates, caters, caster, cartes, carets 
+
+Number of Words in Anagram Family: 8 
+Canonical form of the Anagram: aeginrs 
+Members of family: seringa, searing, reginas, regains, reagins, gainers, erasing, earings 
+
+Number of Words in Anagram Family: 8 
+Canonical form of the Anagram: aelps 
+Members of family: spale, sepal, salep, pleas, peals, pales, leaps, lapse 
+
+Number of Words in Anagram Family: 8 
+Canonical form of the Anagram: aelrs 
+Members of family: seral, reals, rales, lears, laser, lares, earls, arles 
+
+Number of Words in Anagram Family: 8 
+Canonical form of the Anagram: aeprss 
+Members of family: spears, sparse, spares, repass, prases, passer, parses, aspers 
+
+Number of Words in Anagram Family: 8 
+Canonical form of the Anagram: aest 
+Members of family: teas, seta, seat, sate, etas, eats, east, ates 
+
+Number of Words in Anagram Family: 8 
+Canonical form of the Anagram: eenrst 
+Members of family: treens, ternes, tenser, resent, rentes, renest, nester, enters 
+
+Number of Words in Anagram Family: 8 
+Canonical form of the Anagram: eiprs 
+Members of family: spire, spier, speir, ripes, prise, pries, piers, peris 
+
+The Very Last Family in List: 
+
+Number of Words in Anagram Family: 1 
+Canonical form of the Anagram: ux 
+Members of family: xu 
+
