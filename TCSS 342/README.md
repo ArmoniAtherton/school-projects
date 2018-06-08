@@ -1,16 +1,25 @@
-# school-projects
+# Data Structures
+Projects for TCSS 342
 
-### TCSS 143 - Fundementals of Object Oriented Programming.
-* Implement a low-complexity program (3 or more interacting classes) which includes the use of interfaces and/or abstract classes, and polymorphism given some design guidance.
-* Apply object-oriented design concepts and techniques such as inheritance, composition, encapsulation, abstraction, method overloading, method overriding, exception handling, and scope appropriately to the implementation of a program.
-* Provide formal documentation for a program, e.g.,Javadoc comments
-* Use single and multidimensional arrays and basic abstract data types(Lists, Queues, Sets, Stacks) in the implementation of a program.
-* Use a provided class, given only its API
-* Apply recursive techniques to solve problems
+### Project 1 - Baron Burger
+* The Burger Baron will make custom burgers from a text file.
+* Constructs the burger using a custom stack as a linked structure.
 
-### TCSS 305 - Programming Practicum
-* Design, implement, document and debug a medium complexity program with an object hierarchy that includes interfaces and/or abstract classes and a graphical user interface, given some guidance on the design.
-* Design and implement unit tests for a medium complexity program with an object hierarchy that includes interfaces and/or abstract classes.
-* Utilize modern software engineering tools (e.g., IDEs, static checkers, unit testing frameworks, revision control systems) during the implementation of a medium complexity program.
-* Correctly employ programming language features by reading and interpreting the associated published API documentation.
+### Project 2 - Evolved Names
+* Evolutionary program that consists of letters A-Z while including -, , '
+* Will simulate a strongest of a fit enviorment by mutating and calculating a fitness level of the string.
+* Strings in this world can reproduce new strings and die if they are not fit enough. It will evolve strings in this world until they spell your name.
 
+### Project 3 - Compressed Literature
+* Will take a large collection of raw text files of famous literature, including Leo Tolstoy’s War and Peace consisting of over 3 million characters, and store these works more efficiently using Huffman Encoding. 
+* Compressing data based on character frequency in a message.
+* Implemented custom priority queue.
+
+### Project 4 - Compressed Literature (Implemented with own HashTable)
+* Will take a large collection of raw text files of famous literature, including Leo Tolstoy’s War and Peace consisting of over 3 million characters, and store these works more efficiently using Huffman Encoding.
+* Compress the data based on word frequency in a message.
+* Implemented custom HashTable to store word frequency and binary codes.
+
+### Project 5 - Maze Generator
+* Generate a 2­dimensional n by m maze with no cycles using a graph.
+* Generated maze by using Depth First Search graph traversal.
