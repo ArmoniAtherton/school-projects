@@ -1,0 +1,30 @@
+Double Burger
+Triple Burger
+Single Veggie Baron Burger
+Double Chicken Burger with Veggies Mustard but no Onions
+Triple Baron Burger with no Sauce Cheese Lettuce but Pepperjack Baron-Sauce
+Single Veggie Burger
+Single Beef Baron Burger
+Triple Burger with Sauce Cheese but no Mustard Baron-Sauce Mozzarella
+Burger with Veggies but no Lettuce Onions Mushrooms
+Baron Burger with no Cheese Mustard Pickle Ketchup but Pepperjack
+Double Burger with Veggies Sauce Cheese but Cheddar Mozzarella Ketchup Mayonnaise Lettuce Tomato 
+Burger
+Chicken Burger
+Veggie Burger
+Triple Chicken Burger
+Burger with Cheese Tomato 
+Baron Burger but no Ketchup Lettuce
+Double Burger with Cheese Sauce but no Cheddar Pepperjack Mozzarella
+Triple Chicken Burger with Veggies but Mushrooms
+Single Veggie Baron Burger with no Lettuce Pickle Sauce but Mustard
+Triple Veggie Burger 
+Burger with Sauce 
+Double Chicken Baron Burger with no Veggies but Onions
+Veggie Baron Burger with no Pepperjack Ketchup Mayonnaise Pickle
+Triple Burger with Veggies Sauce Cheese
+Burger with Veggies but Tomato
+Double Burger with Veggies Sauce but Baron-Sauce Mustard
+Chicken Baron Burger with no Sauce but Ketchup
+Triple Baron Burger with no Cheese
+Double Burger with Cheese

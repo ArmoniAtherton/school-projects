@@ -1,0 +1,26 @@
+Processing Order 0: Burger
+[Bun, Beef, Bun]
+
+Processing Order 1: Double Baron Burger
+[Pickle, Bun, Mayonnaise, Baron-Sauce, Lettuce, Tomato, Onions, Beef, Pepperjack, Mozzarella, Cheddar, Beef, Mushrooms, Mustard, Ketchup, Bun]
+
+Processing Order 2: Triple Chicken Burger with Onions Cheese but Cheddar
+[Bun, Onions, Chicken, Chicken, Pepperjack, Mozzarella, Chicken, Bun]
+
+Processing Order 3: Baron Burger with no Veggies Sauce but Baron-Sauce
+[Bun, Baron-Sauce, Pepperjack, Mozzarella, Cheddar, Beef, Bun]
+
+Processing Order 4: Single Veggie Baron Burger
+[Pickle, Bun, Mayonnaise, Baron-Sauce, Lettuce, Tomato, Onions, Pepperjack, Mozzarella, Cheddar, Veggie, Mushrooms, Mustard, Ketchup, Bun]
+
+Processing Order 5: Double Baron Burger with no Cheese but Mozzarella 
+[Pickle, Bun, Mayonnaise, Baron-Sauce, Lettuce, Tomato, Onions, Beef, Mozzarella, Beef, Mushrooms, Mustard, Ketchup, Bun]
+
+Processing Order 6: Single Burger with Veggies but no Lettuce 
+[Pickle, Bun, Tomato, Onions, Beef, Mushrooms, Bun]
+
+Processing Order 7: Double Chicken Burger with Ketchup Cheddar Onions and Mushrooms
+[Bun, Onions, Chicken, Cheddar, Chicken, Mushrooms, Ketchup, Bun] 
+
+Processing Order 8: Triple Baron Burger
+[Pickle, Bun, Mayonnaise, Baron-Sauce, Lettuce, Tomato, Onions, Beef, Beef, Pepperjack, Mozzarella, Cheddar, Beef, Mushrooms, Mustard, Ketchup, Bun]
