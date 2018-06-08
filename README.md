@@ -14,3 +14,25 @@
 * Utilize modern software engineering tools (e.g., IDEs, static checkers, unit testing frameworks, revision control systems) during the implementation of a medium complexity program.
 * Correctly employ programming language features by reading and interpreting the associated published API documentation.
 
+### TCSS 333 - C for System Programming.
+* Distinguish various intermediate forms of a C program including preprocessor output, assembly
+code, object code, and executable.
+* Specify the memory layout of C's basic types, numeric, string, array, and structure.
+* Allocate memory and use pointers to manipulate dynamic data structures and parameters.
+* Use system routines to start, stop, and program communication between processes.
+* Organize a complex program as a set of source and header files and use a tool such as make to
+build it.
+
+### TCSS 342 - Data Structures.
+* Covers abstract data types, design and complexity analysis
+of data, and usage of generic structure libraries in high-level programming languages.
+Includes sequential and linked lists, heaps, binary search trees and balanced binary search
+trees, B-trees, hash tables, and graphs.
+* Apply knowledge of computing and mathematics appropriate to the discipline.
+* Analyze a problem, identify and define the computing requirements appropriate to its
+solution.
+* Design, implement and evaluate a computer-based system, process, component, or
+program to meet desired needs.
+* Apply mathematical foundations, algorithmic principles, and computer science theory in
+the modeling and design of computer-based systems in a way that demonstrates
+comprehension of the tradeoffs involved in design choices.
