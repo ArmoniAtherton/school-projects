@@ -2,7 +2,7 @@
 Projects for TCSS 343
 
 ### Project - Conoe Rental Problems
-* There are n trading posts numbered 1 ton, as you travel downstream. At any trading posti,you can rent a canoe to be returned at any of the downstream trading posts j>i. You are given a cost array R(i,j) giving the cost of these rentals for 1≤i≤j≤n. We will have to assume that R(i,i)=0 and R(i,j)=∞ if i>j. For example, with n=4, the cost array may look as follows: The rows are the sources (i-s) and the columns are the destinations (j’s).
+* There are n trading posts numbered 1 to n, as you travel downstream. At any trading post i, you can rent a canoe to be returned at any of the downstream trading posts j > i. You are given a cost array R(i,j) giving the cost of these rentals for 1 ≤ i ≤ j ≤n. We will have to assume that R(i,i)=0 and R(i,j)= ∞ if i > j. For example, with n = 4, the cost array may look as follows: The rows are the sources (i-s) and the columns are the destinations (j’s).
 
 
          1   2   3   4
