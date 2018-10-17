@@ -38,4 +38,4 @@ the modeling and design of computer-based systems in a way that demonstrates
 comprehension of the tradeoffs involved in design choices.
 
 ### TCSS 343 - Algorthims.
-This class covered fundamental algorithms, such as sorting algorithms, basic graph algorithms (depth-first and breadth-first search, shortest path algorithms, minimum spanning tree algorithms), dynamic programming, and other kinds of algorithms.
+* This class covered fundamental algorithms, such as sorting algorithms, basic graph algorithms (depth-first and breadth-first search, shortest path algorithms, minimum spanning tree algorithms), dynamic programming, and other kinds of algorithms.
